@@ -6,7 +6,13 @@
 const { defineConfig } = require("cypress");
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 const fs = require("fs");
-require('dotenv').config();
+require('dotenv').config({ path: process.env.ENV_PATH });
+
+//Validate API key
+if (!process.env.API_KEY) {
+    throw new Error("Missing API Key. Please check your .env file or ENV_PATH.");
+}
+
 
 module.exports = defineConfig({
     e2e: {
@@ -42,23 +48,3 @@ module.exports = defineConfig({
         supportFile: false
     },
 });
-
-
-//config before gemini api
-
-
-/*
-const { defineConfig } = require("cypress");
-
-module.exports = defineConfig({
-    e2e: {
-        setupNodeEvents(on, config) {
-            // implement node event listeners here
-        },
-        supportFile: false
-    },
-});
-const { GoogleGenerativeAI } = require("@google/generative-ai");
-const fs = require("fs");
-require('dotenv').config();
-*/

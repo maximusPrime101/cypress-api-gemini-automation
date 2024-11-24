@@ -1,11 +1,12 @@
 /// <reference types="cypress" />
 /*
+A Cypress-based automation framework integrating with the Gemini API to detect and analyze 
+text and visual differences between screenshots after applying text manipulations such
+as color, font, resolution, and spacing changes.
 
-npm i dotenv
-npm i @google/generative-ai
 */
 
-describe('Accessibility test', () => {
+describe('Gemini Compare test', () => {
 
     beforeEach(() => {
         cy.visit('https://idgu.co.il');
