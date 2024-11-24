@@ -1,6 +1,6 @@
 /// <reference types="cypress" />
 /*
-API_KEY=AIzaSyBI9b9jWlXRXpRALNCS9twrvyvpbvyFGDk
+
 npm i dotenv
 npm i @google/generative-ai
 */
