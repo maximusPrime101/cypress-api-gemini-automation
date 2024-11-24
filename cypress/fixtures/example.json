@@ -1,0 +1,10 @@
+{
+    "name": "John",
+    "address": {
+        "street": "Hakalanit",
+        "houseNumber": 5,
+        "city": "Tel Aviv"
+    },
+    "birthYear": 2002,
+    "email": "john@gmail.com"
+}
