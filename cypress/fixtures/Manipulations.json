@@ -1,0 +1,44 @@
+{
+    "manipulations": [
+        {
+            "type": "color",
+            "value": "red"
+        },
+        {
+            "type": "font-size",
+            "value": "30px"
+        },
+        {
+            "type": "font-weight",
+            "value": "bold"
+        },
+        {
+            "type": "text-decoration",
+            "value": "underline"
+        },
+        {
+            "type": "font-style",
+            "value": "italic"
+        },
+        {
+            "type": "background-color",
+            "value": "yellow"
+        },
+        {
+            "type": "letter-spacing",
+            "value": "2px"
+        },
+        {
+            "type": "line-height",
+            "value": "1.8"
+        },
+        {
+            "type": "color",
+            "value": "blue"
+        },
+        {
+            "type": "zoom",
+            "value": "2"
+        }
+    ]
+}
