@@ -6,7 +6,8 @@
 const { defineConfig } = require("cypress");
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 const fs = require("fs");
-require('dotenv').config({ path: process.env.ENV_PATH });
+require('dotenv').config({ path: 'D:/Git/.env' }); //PC
+//require('dotenv').config({ path: 'D:/Git/.env' }); //Laptop
 
 //Validate API key
 if (!process.env.API_KEY) {
