@@ -5,8 +5,8 @@
             "value": "red"
         },
         {
-            "type": "font-size",
-            "value": "30px"
+            "type": "font-family",
+            "value": "cursive"
         },
         {
             "type": "font-weight",

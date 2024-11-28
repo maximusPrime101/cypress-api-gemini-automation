@@ -1,0 +1,24 @@
+
+"Analyze these two images. The first image is the original version of a lyrics webpage. The second image represents the webpage after specific style attributes have been randomly applied. Your task is to focus exclusively on the lyrics text:
+
+1. List only the exact style attributes and their corresponding values that differ between the two images.
+
+2. Focus exclusively on attributes that may have changed due to the applied manipulations, such as font-weight, text-decoration, color, zoom, and any other relevant attributes explicitly present in the test. Avoid listing multiple values for a single attribute or speculative changes. Avoid listing differences if the two images are identical.
+if the probability of identifying attribute is over 80% list it.
+
+Write your response in this format: <attribute>: <value>;
+
+After listing the changes:
+Count the total number of identified differences and provide it in this format: Total differences identified: <number>;
+
+after counting:
+short explanation about the differences that you found
+
+At the beginning of your response:
+Start with "Yes - differences were found" if style differences were identified. or 
+Start with "No - differences were not found" if style differences were not identified.
+
+At the end of your response:
+
+Start with "Text is identical! \nTrue" if the lyrics text is identical in both images, or
+Start with "Text is missing! \nFalse" if any part of the lyrics text is missing."
