@@ -1,24 +1,61 @@
+Analyze and compare these two images. The BaseImage is the original version of a lyrics webpage, and the ManipulatedImage is the webpage after random style attributes have been applied. Your task is to focus exclusively on the lyrics text and perform the following actions:
 
-"Analyze these two images. The first image is the original version of a lyrics webpage. The second image represents the webpage after specific style attributes have been randomly applied. Your task is to focus exclusively on the lyrics text:
+1. **Identify and Measure Attributes**:
+   - Analyze the lyrics text by breaking it into individual words.
+   - For each word, measure and compare the following style attributes:
+     - **Font size** (in pixels)
+     - **Font-weight**
+     - **Line-height**
+     - **Letter-spacing** (in pixels)
+     - **Text color** (use the color name, e.g., "red" or "blue")
+     - **Background color** (if applied to the text)
+     - **Padding and margin**
+     - **Text alignment** (e.g., left, center, right)
+   - Report changes only where differences exist between the BaseImage and ManipulatedImage.
 
-1. List only the exact style attributes and their corresponding values that differ between the two images.
+2. **Focus Exclusively on the Lyrics**:
+   - Ignore headers, footers, banners, or non-lyrics text.
+   - If the lyrics text is partially visible or obscured, describe the issue and specify which words are missing or unclear.
 
-2. Focus exclusively on attributes that may have changed due to the applied manipulations, such as font-weight, text-decoration, color, zoom, and any other relevant attributes explicitly present in the test. Avoid listing multiple values for a single attribute or speculative changes. Avoid listing differences if the two images are identical.
-if the probability of identifying attribute is over 80% list it.
+3. **Comparison**:
+   - For every attribute change, specify:
+     - The original value in the BaseImage.
+     - The changed value in the ManipulatedImage.
+     - The exact difference (e.g., "Font size increased by 2px").
+   - If attributes like font-weight and font size both contribute to a visual effect (e.g., bold text), combine them into a single explanation.
 
-Write your response in this format: <attribute>: <value>;
+4. **Text Integrity**:
+   - Compare the text in the BaseImage and ManipulatedImage.
+   - Highlight any missing, overlapping, or additional words or characters.
+   - If text is missing or altered, provide the exact missing or altered words.
 
-After listing the changes:
-Count the total number of identified differences and provide it in this format: Total differences identified: <number>;
+5. **Precision Requirements**:
+   - List only changes with a **detection confidence above 90%**.
+   - If changes have a detection confidence of 50%-90%, mention them separately as "Possible changes."
 
-after counting:
-short explanation about the differences that you found
+6. **Output Requirements**:
+   - Begin the response with:
+     - "Yes - differences were found." if style differences exist.
+     - "No - differences were not found." if no style differences exist.
+   - Provide a list of identified differences in the following format:
+     ```plaintext
+     font-size: increased by 2px;
+     font-weight: changed to bold;
+     line-height: changed from 1.5 to 1.8;
+     ```
+   - Count the total number of differences and provide it in this format:
+     ```plaintext
+     Total differences identified: <number>.
+     ```
+   - Provide an explanation of how the differences affect the appearance of the lyrics.
+   - State "True" if the text in both images is identical or "False" if it is not.
 
-At the beginning of your response:
-Start with "Yes - differences were found" if style differences were identified. or 
-Start with "No - differences were not found" if style differences were not identified.
+7. **Fallback Instructions**:
+   - If the lyrics text cannot be accurately analyzed (due to visibility, quality, or obstruction issues), state:
+     ```plaintext
+     Unable to analyze lyrics due to <reason>. No valid comparison could be made.
+     ```
 
-At the end of your response:
+8. **Output Lyrics**:
+   - At the end of your response, copy the lyrics text you examined exactly as detected (do not translate). If you cannot detect the lyrics text, explain why and state "Lyrics text unavailable."
 
-Start with "Text is identical! \nTrue" if the lyrics text is identical in both images, or
-Start with "Text is missing! \nFalse" if any part of the lyrics text is missing."

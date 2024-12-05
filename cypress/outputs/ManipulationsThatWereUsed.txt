@@ -1,1 +1,1 @@
-font-family: cursive;
+zoom: 2;

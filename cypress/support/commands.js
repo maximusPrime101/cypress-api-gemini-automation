@@ -32,6 +32,7 @@ Cypress.Commands.add('hideElements', (selectors) => {
     });
 });
 
+
 /**
  * Applies a set of random CSS styles to a specified element.
  * The styles are selected from a predefined list in the 'Manipulations.json' file.
@@ -44,8 +45,13 @@ Cypress.Commands.add('hideElements', (selectors) => {
 Cypress.Commands.add('applyRandomStyles', (outputPath, selector, numberOfAttributesToApply) => {
 
 
+
+
     cy.fixture('Manipulations.json').then((data) => {
         const manipulations = data.manipulations;
+
+        cy.get('[id = "songContentTPL"]', { timeout: 60000 }).should('be.visible')
+            .invoke('attr', 'style', 'zoom:2;')
 
         // Randomly select N manipulations
         const randomChanges = Cypress._.sampleSize(manipulations, numberOfAttributesToApply);
@@ -54,7 +60,7 @@ Cypress.Commands.add('applyRandomStyles', (outputPath, selector, numberOfAttribu
         cy.log(`Random styles: ${combinedStyles}`);
 
         // Apply styles and verify
-        cy.get(selector)
+        cy.get(selector, { timeout: 60000 }).should('be.visible')
             .invoke('attr', 'style', combinedStyles)
             .then(() => {
                 cy.get(selector).invoke('attr', 'style').then((style) => {
@@ -64,7 +70,7 @@ Cypress.Commands.add('applyRandomStyles', (outputPath, selector, numberOfAttribu
                 });
             });
 
-        // Save the applied styles
+        // Save to file the applied styles
         cy.writeFile(outputPath, combinedStyles);
     });
 });
@@ -99,12 +105,15 @@ Cypress.Commands.add('compareScreenshots', (baseImageName, manipulatedImageName,
 
 
 /**
- * Analyzes the API response file for validation and logs results.
- * Validates whether the response indicates visual and textual differences as expected.
+ * Custom Cypress command to analyze the output of a Gemini visual test and validate
+ * the differences between a BaseImage and a ManipulatedImage. It reads the API response
+ * from a file and performs several validations to ensure the visual differences match
+ * the expected count and that the text is intact.
  *
- * @param {string} apiOutputFilePath - Path to the API output file.
+ * @param {string} apiOutputFilePath - The file path of the API response output that contains the visual test results.
+ * @param {number} numberOfAttributesToApply - The expected number of manipulations (CSS changes) applied to the image.
  */
-Cypress.Commands.add('outputDataAnalyzing', (apiOutputFilePath) => {
+Cypress.Commands.add('outputDataAnalyzing', (apiOutputFilePath, numberOfAttributesToApply) => {
 
     //Path validation
     //ensureDirectoryExists(apiOutputFilePath);
@@ -114,19 +123,49 @@ Cypress.Commands.add('outputDataAnalyzing', (apiOutputFilePath) => {
         cy.log(content);
         cy.log('=============================');
 
-        // Validate response starts and ends as expected
-        expect(content.trim()).to.match(/^Yes/);
+        // Extract the total differences directly
+        const totalDifferences = parseInt(
+            content.split('Total differences identified:')[1].trim().split(' ')[0],
+            10
+        );
 
-        if (content.startsWith("Yes")) {
-            cy.log("Test passed: Image has visual differences.");
-        } else {
-            cy.log("Test failed: No visual differences detected.");
+        //Error if totalDifferences contains unexpected text
+        if (isNaN(totalDifferences)) {
+            throw new Error('Unable to parse the total differences. Ensure the response contains a valid number.');
         }
+        cy.log(`Total differences identified: ${totalDifferences}`);
+
+        // Validate against the expected manipulations count
+        if (totalDifferences !== numberOfAttributesToApply) {
+            throw new Error(
+                `Mismatch in visual differences count. Expected: ${numberOfAttributesToApply}, Found: ${totalDifferences}`
+            );
+        } else {
+            cy.log(
+                `Test passed: Visual differences match the expected manipulations count (${numberOfAttributesToApply}).`
+            );
+        }
+
+        // Validate response starts as expected
+        try {
+            expect(content.trim()).to.match(/^Yes/, 'Response should start with "Yes"');
+        } catch (error) {
+            throw new Error(`No changes were found in images. Ensure that the images are different.\n${error.message}`);
+        }
+
+
+
+        //Searching for missing text
         if (content.endsWith("True")) {
             cy.log("Test passed: Image has the same text.");
         } else {
             cy.log("Test failed: Changes in text were detected.");
+            const missingText = content.match(/Text is missing! - (.*)/);
+            if (missingText) {
+                cy.log(`Missing text: ${missingText[1]}`);
+            }
         }
+
     });
 
 });
